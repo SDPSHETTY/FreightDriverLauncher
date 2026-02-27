@@ -1,0 +1,21 @@
+{
+  "_comment": "Freight Driver Launcher Configuration - Place at /sdcard/freight_launcher_config.json for testing without MDM",
+
+  "main_tile_package": "com.motive.driver",
+  "main_tile_activity": "com.motive.driver.MainActivity",
+
+  "navigation_package": "com.google.android.apps.maps",
+  "navigation_expandable": true,
+
+  "prepass_package": "com.prepass.app",
+  "prepass_expandable": true,
+
+  "dispatch_url": "https://fdxtools.fedex.com/grdlhldispatch",
+  "dispatch_expandable": true,
+
+  "eld_package": "com.eld.app",
+
+  "main_tile_normal_size": 0.7,
+  "main_tile_compressed_size": 0.4,
+  "expanded_tile_size": 0.3
+}

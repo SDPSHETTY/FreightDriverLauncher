@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <!-- MDM Restriction Descriptions -->
+    <string name="main_tile_package_desc">Package name for the main tile app</string>
+    <string name="main_tile_activity_desc">Activity class for the main tile app</string>
+    <string name="dispatch_url_desc">URL for the dispatch webapp</string>
+    <string name="dispatch_expandable_desc">Allow dispatch tile to expand</string>
+    <string name="navigation_package_desc">Package name for navigation app</string>
+    <string name="navigation_expandable_desc">Allow navigation tile to expand</string>
+    <string name="prepass_package_desc">Package name for PrePass app</string>
+    <string name="prepass_expandable_desc">Allow PrePass tile to expand</string>
+    <string name="eld_package_desc">Package name for ELD app</string>
+    <string name="main_tile_normal_size_desc">Main tile size when nothing expanded</string>
+    <string name="main_tile_compressed_size_desc">Main tile size when tile is expanded</string>
+    <string name="expanded_tile_size_desc">Size of expanded tile</string>
+</resources>

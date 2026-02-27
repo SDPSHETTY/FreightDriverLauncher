@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<restrictions xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Main Tile Configuration -->
+    <restriction
+        android:key="main_tile_package"
+        android:title="Main Tile Package Name"
+        android:restrictionType="string"
+        android:description="@string/main_tile_package_desc"
+        android:defaultValue="com.motive.driver" />
+
+    <restriction
+        android:key="main_tile_activity"
+        android:title="Main Tile Activity"
+        android:restrictionType="string"
+        android:description="@string/main_tile_activity_desc"
+        android:defaultValue="com.motive.driver.MainActivity" />
+
+    <!-- Dispatch Configuration -->
+    <restriction
+        android:key="dispatch_url"
+        android:title="Dispatch System URL"
+        android:restrictionType="string"
+        android:description="@string/dispatch_url_desc"
+        android:defaultValue="https://fdxtools.fedex.com/grdlhldispatch" />
+
+    <restriction
+        android:key="dispatch_expandable"
+        android:title="Dispatch Expandable"
+        android:restrictionType="bool"
+        android:description="@string/dispatch_expandable_desc"
+        android:defaultValue="true" />
+
+    <!-- Navigation Configuration -->
+    <restriction
+        android:key="navigation_package"
+        android:title="Navigation Package Name"
+        android:restrictionType="string"
+        android:description="@string/navigation_package_desc"
+        android:defaultValue="com.google.android.apps.maps" />
+
+    <restriction
+        android:key="navigation_expandable"
+        android:title="Navigation Expandable"
+        android:restrictionType="bool"
+        android:description="@string/navigation_expandable_desc"
+        android:defaultValue="true" />
+
+    <!-- PrePass Configuration -->
+    <restriction
+        android:key="prepass_package"
+        android:title="PrePass Package Name"
+        android:restrictionType="string"
+        android:description="@string/prepass_package_desc"
+        android:defaultValue="com.prepass.app" />
+
+    <restriction
+        android:key="prepass_expandable"
+        android:title="PrePass Expandable"
+        android:restrictionType="bool"
+        android:description="@string/prepass_expandable_desc"
+        android:defaultValue="true" />
+
+    <!-- ELD Configuration -->
+    <restriction
+        android:key="eld_package"
+        android:title="ELD Package Name"
+        android:restrictionType="string"
+        android:description="@string/eld_package_desc"
+        android:defaultValue="com.eld.app" />
+
+    <!-- Layout Configuration -->
+    <restriction
+        android:key="main_tile_normal_size"
+        android:title="Main Tile Normal Size"
+        android:restrictionType="string"
+        android:description="@string/main_tile_normal_size_desc"
+        android:defaultValue="0.7" />
+
+    <restriction
+        android:key="main_tile_compressed_size"
+        android:title="Main Tile Compressed Size"
+        android:restrictionType="string"
+        android:description="@string/main_tile_compressed_size_desc"
+        android:defaultValue="0.4" />
+
+    <restriction
+        android:key="expanded_tile_size"
+        android:title="Expanded Tile Size"
+        android:restrictionType="string"
+        android:description="@string/expanded_tile_size_desc"
+        android:defaultValue="0.3" />
+
+</restrictions>
