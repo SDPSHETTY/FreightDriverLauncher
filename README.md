@@ -47,12 +47,6 @@ adb shell am start -n com.freight.launcher/.MainActivity
 
 Full enterprise configuration via Android App Restrictions API. See [MDM_CONFIGURATION.md](MDM_CONFIGURATION.md) for details.
 
-### Supported MDM Platforms
-- Esper MDM
-- AirWatch/VMware Workspace ONE
-- Microsoft Intune
-- Google Enterprise
-
 ## Technical Stack
 
 - **Language**: Kotlin 100%

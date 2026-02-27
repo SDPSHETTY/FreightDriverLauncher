@@ -4,14 +4,6 @@
 
 The Freight Driver Launcher supports MDM (Mobile Device Management) configuration through Android's **App Restrictions** API. This allows enterprise deployments to customize the launcher behavior without modifying the APK.
 
-## Supported MDM Platforms
-
-- Esper MDM
-- AirWatch/VMware Workspace ONE
-- Microsoft Intune
-- Google Enterprise (Managed Configuration)
-- Any MDM supporting Android App Restrictions
-
 ## Configuration Parameters
 
 ### Main Tile Configuration
@@ -139,24 +131,24 @@ The launcher reads configuration in this priority order:
 2. **Local JSON File** - `/sdcard/freight_launcher_config.json` for testing
 3. **Default Configuration** (fallback) - built into the app
 
-## Esper MDM Deployment
+## MDM Deployment
 
-### 1. Upload APK to Esper Console
-- Go to Apps → Upload APK
-- Upload `launcher-debug.apk` (or signed release APK)
+### 1. Upload APK
+- Upload the signed launcher APK to your MDM console
+- Use `launcher-debug.apk` for testing or signed release APK for production
 
 ### 2. Configure Managed Settings
-- Select the uploaded launcher app
-- Navigate to "Managed App Config"
-- Configure parameters using the Esper UI
+- Select the uploaded launcher app in your MDM
+- Navigate to Managed App Configuration
+- Configure parameters according to your fleet requirements
 
 ### 3. Deploy to Device Group
-- Assign launcher to device group
-- Esper will push both the app and configuration
+- Assign launcher to target device group
+- MDM will push both the app and configuration
 - Launcher reads config via AppRestrictions API
 
 ### 4. Set as Default Launcher (Optional)
-- In Esper Kiosk mode settings
+- In your MDM's kiosk mode settings
 - Set Freight Driver Launcher as default home app
 - This prevents users from switching to other launchers
 
