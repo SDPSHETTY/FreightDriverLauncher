@@ -11,11 +11,16 @@
   "prepass_expandable": true,
 
   "dispatch_url": "https://fdxtools.fedex.com/grdlhldispatch",
+  "dispatch_login_url": "",
+  "dispatch_auto_login_redirect": false,
   "dispatch_expandable": true,
 
   "eld_package": "com.eld.app",
 
   "main_tile_normal_size": 0.7,
   "main_tile_compressed_size": 0.4,
-  "expanded_tile_size": 0.3
+  "expanded_tile_size": 0.3,
+
+  "interaction_lock_when_moving": false,
+  "interaction_lock_demo_active": false
 }

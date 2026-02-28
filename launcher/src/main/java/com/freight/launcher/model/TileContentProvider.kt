@@ -118,7 +118,13 @@ object TileContentProvider {
                 // Get dispatch URL from configuration
                 val dispatchTile = config.bottomTiles.find { it.id == "dispatch" }
                 val dispatchUrl = dispatchTile?.url ?: "https://fdxtools.fedex.com/grdlhldispatch"
-                com.freight.dispatch.DispatchExpandedScreen(dispatchUrl = dispatchUrl)
+                val dispatchLoginUrl = dispatchTile?.loginUrl
+                val dispatchAutoLoginRedirect = dispatchTile?.autoLoginRedirect ?: false
+                com.freight.dispatch.DispatchExpandedScreen(
+                    dispatchUrl = dispatchUrl,
+                    dispatchLoginUrl = dispatchLoginUrl,
+                    autoLoginRedirect = dispatchAutoLoginRedirect
+                )
             }
             else -> {
                 // Fallback for non-expandable or unknown tiles

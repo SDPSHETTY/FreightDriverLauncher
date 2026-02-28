@@ -5,12 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.freight.common.TileInfo
 
 /**
@@ -24,6 +26,11 @@ import com.freight.common.TileInfo
 fun LockedMainTileLauncher(
     mainTile: TileInfo,
     bottomTiles: List<TileInfo>,
+    expandableTileIds: Set<String>,
+    isInteractionLocked: Boolean,
+    mainTileNormalSize: Float,
+    mainTileCompressedSize: Float,
+    expandedTileSize: Float,
     tileContentProvider: @Composable (TileInfo) -> Unit,
     expandableScreenProvider: @Composable (String) -> Unit,
     modifier: Modifier = Modifier
@@ -31,14 +38,18 @@ fun LockedMainTileLauncher(
     // Track which tile is currently expanded (null = none expanded)
     var expandedTileId by remember { mutableStateOf<String?>(null) }
 
-    // Get expandable tiles
-    val expandableTileIds = setOf("navigation", "prepass", "dispatch")
     val expandedTile = bottomTiles.find { it.id == expandedTileId }
     val visibleBottomTiles = if (expandedTileId != null) {
         bottomTiles.filter { it.id != expandedTileId }
     } else {
         bottomTiles
     }
+
+    val collapsedMainWeight = mainTileNormalSize.coerceIn(0.2f, 0.9f)
+    val expandedMainWeight = mainTileCompressedSize.coerceIn(0.2f, 0.8f)
+    val expandedTileWeight = expandedTileSize.coerceIn(0.1f, 0.5f)
+    val collapsedBottomWeight = (1f - collapsedMainWeight).coerceIn(0.1f, 0.8f)
+    val expandedBottomWeight = (1f - expandedMainWeight - expandedTileWeight).coerceIn(0.1f, 0.6f)
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -48,7 +59,7 @@ fun LockedMainTileLauncher(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(if (expandedTileId != null) 0.4f else 0.7f)
+                .weight(if (expandedTileId != null) expandedMainWeight else collapsedMainWeight)
         ) {
             tileContentProvider(mainTile)
         }
@@ -58,7 +69,7 @@ fun LockedMainTileLauncher(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(0.3f)
+                    .weight(expandedTileWeight)
                     .clickable { expandedTileId = null } // Tap to collapse
             ) {
                 // Show appropriate expanded view
@@ -70,7 +81,7 @@ fun LockedMainTileLauncher(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.3f)
+                .weight(if (expandedTileId != null) expandedBottomWeight else collapsedBottomWeight)
                 .background(Color(0xFF212121)) // Dark background for bottom bar
                 .padding(vertical = 12.dp)
         ) {
@@ -84,10 +95,27 @@ fun LockedMainTileLauncher(
                         content = { tileContentProvider(tile) },
                         isExpandable = tile.id in expandableTileIds,
                         onTap = {
-                            if (tile.id in expandableTileIds) {
+                            if (!isInteractionLocked && tile.id in expandableTileIds) {
                                 expandedTileId = if (expandedTileId == tile.id) null else tile.id
                             }
                         }
+                    )
+                }
+            }
+
+            if (isInteractionLocked) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 6.dp)
+                        .background(Color(0xFFB71C1C).copy(alpha = 0.92f))
+                        .padding(horizontal = 12.dp, vertical = 4.dp)
+                ) {
+                    Text(
+                        text = "Interaction locked while vehicle is moving",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium
                     )
                 }
             }

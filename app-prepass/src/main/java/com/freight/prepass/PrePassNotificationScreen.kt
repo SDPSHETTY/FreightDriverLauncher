@@ -20,19 +20,22 @@ import kotlinx.coroutines.delay
  */
 @Composable
 fun PrePassNotificationScreen() {
-    // Simulate approaching weight station
-    var distance by remember { mutableStateOf(47) }
-    var status by remember { mutableStateOf("BYPASS") }
+    val stationDistances = remember { listOf(47, 31, 20, 8, 3) }
+    val statuses = remember { listOf("BYPASS", "BYPASS", "MUST WEIGH IN", "BYPASS", "BYPASS") }
+    var checkpointIndex by remember { mutableStateOf(0) }
+    var distance by remember { mutableStateOf(stationDistances.first()) }
+    var status by remember { mutableStateOf(statuses.first()) }
 
     // Countdown distance
     LaunchedEffect(Unit) {
         while (true) {
-            delay(3000) // Update every 3 seconds (simulated)
-            distance = (distance - 1).coerceAtLeast(0)
+            delay(3000)
+            checkpointIndex = (checkpointIndex + 1) % stationDistances.size
+            distance = stationDistances[checkpointIndex]
+            status = statuses[checkpointIndex]
 
-            // Randomly change status for demo
-            if (distance == 20) {
-                status = if (Math.random() > 0.5) "BYPASS" else "MUST WEIGH IN"
+            if (checkpointIndex == stationDistances.lastIndex) {
+                delay(2500)
             }
         }
     }

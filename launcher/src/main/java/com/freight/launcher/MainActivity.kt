@@ -28,10 +28,24 @@ class MainActivity : ComponentActivity() {
                     val bottomTiles = remember {
                         launcherConfig.bottomTiles.map { it.toTileInfo() }
                     }
+                    val expandableTileIds = remember {
+                        launcherConfig.bottomTiles
+                            .filter { it.expandable }
+                            .map { it.id }
+                            .toSet()
+                    }
+                    val isInteractionLocked = remember {
+                        launcherConfig.interactionLockWhenMoving && launcherConfig.interactionLockDemoActive
+                    }
 
                     LockedMainTileLauncher(
                         mainTile = mainTile,
                         bottomTiles = bottomTiles,
+                        expandableTileIds = expandableTileIds,
+                        isInteractionLocked = isInteractionLocked,
+                        mainTileNormalSize = launcherConfig.mainTileNormalSize,
+                        mainTileCompressedSize = launcherConfig.mainTileCompressedSize,
+                        expandedTileSize = launcherConfig.expandedTileSize,
                         tileContentProvider = { tile ->
                             TileContentProvider.getContentForTile(tile)
                         },
@@ -44,4 +58,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

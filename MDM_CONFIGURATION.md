@@ -42,6 +42,15 @@ The Freight Driver Launcher supports MDM (Mobile Device Management) configuratio
 - Default: `https://fdxtools.fedex.com/grdlhldispatch`
 - Example: `https://dispatch.yourcompany.com`
 
+**dispatch_login_url** (string, optional)
+- Direct login URL for dispatch web app (bypasses landing page login button)
+- Default: empty
+- Example: `https://dispatch.yourcompany.com/login`
+
+**dispatch_auto_login_redirect** (boolean)
+- If `true`, launcher opens dispatch with `dispatch_login_url` and redirects from landing URL once
+- Default: `false`
+
 ### Expandable Tile Settings
 
 **navigation_expandable** (boolean)
@@ -77,6 +86,16 @@ The Freight Driver Launcher supports MDM (Mobile Device Management) configuratio
 - Default: `0.3` (30% of screen height)
 - Range: 0.0 to 1.0
 
+### Driver Safety (Scaffold)
+
+**interaction_lock_when_moving** (boolean)
+- Enables motion safety interaction lock feature flag
+- Default: `false`
+
+**interaction_lock_demo_active** (boolean)
+- Demo/testing switch for interaction lock without telematics integration
+- Default: `false`
+
 ## Testing Without MDM (Development)
 
 For testing without MDM during development, create a JSON configuration file:
@@ -103,13 +122,18 @@ Or create manually on device at: `/sdcard/freight_launcher_config.json`
   "prepass_expandable": true,
 
   "dispatch_url": "https://dispatch.yourcompany.com",
+  "dispatch_login_url": "https://dispatch.yourcompany.com/login",
+  "dispatch_auto_login_redirect": true,
   "dispatch_expandable": true,
 
   "eld_package": "com.keeptruckin.eld",
 
   "main_tile_normal_size": 0.7,
   "main_tile_compressed_size": 0.4,
-  "expanded_tile_size": 0.3
+  "expanded_tile_size": 0.3,
+
+  "interaction_lock_when_moving": false,
+  "interaction_lock_demo_active": false
 }
 ```
 

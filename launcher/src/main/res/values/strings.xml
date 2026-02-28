@@ -5,6 +5,8 @@
     <string name="main_tile_package_desc">Package name for the main tile app</string>
     <string name="main_tile_activity_desc">Activity class for the main tile app</string>
     <string name="dispatch_url_desc">URL for the dispatch webapp</string>
+    <string name="dispatch_login_url_desc">Optional direct login URL for dispatch web app</string>
+    <string name="dispatch_auto_login_redirect_desc">Open or redirect to dispatch login URL automatically</string>
     <string name="dispatch_expandable_desc">Allow dispatch tile to expand</string>
     <string name="navigation_package_desc">Package name for navigation app</string>
     <string name="navigation_expandable_desc">Allow navigation tile to expand</string>
@@ -14,4 +16,6 @@
     <string name="main_tile_normal_size_desc">Main tile size when nothing expanded</string>
     <string name="main_tile_compressed_size_desc">Main tile size when tile is expanded</string>
     <string name="expanded_tile_size_desc">Size of expanded tile</string>
+    <string name="interaction_lock_when_moving_desc">Disable expandable tile taps while vehicle is moving</string>
+    <string name="interaction_lock_demo_active_desc">Enable interaction lock state for demo/testing</string>
 </resources>

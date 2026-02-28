@@ -25,6 +25,20 @@
         android:defaultValue="https://fdxtools.fedex.com/grdlhldispatch" />
 
     <restriction
+        android:key="dispatch_login_url"
+        android:title="Dispatch Login URL"
+        android:restrictionType="string"
+        android:description="@string/dispatch_login_url_desc"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="dispatch_auto_login_redirect"
+        android:title="Dispatch Auto Login Redirect"
+        android:restrictionType="bool"
+        android:description="@string/dispatch_auto_login_redirect_desc"
+        android:defaultValue="false" />
+
+    <restriction
         android:key="dispatch_expandable"
         android:title="Dispatch Expandable"
         android:restrictionType="bool"
@@ -90,5 +104,20 @@
         android:restrictionType="string"
         android:description="@string/expanded_tile_size_desc"
         android:defaultValue="0.3" />
+
+    <!-- Driver Safety (Scaffold) -->
+    <restriction
+        android:key="interaction_lock_when_moving"
+        android:title="Lock Tile Interaction While Moving"
+        android:restrictionType="bool"
+        android:description="@string/interaction_lock_when_moving_desc"
+        android:defaultValue="false" />
+
+    <restriction
+        android:key="interaction_lock_demo_active"
+        android:title="Interaction Lock Demo Active"
+        android:restrictionType="bool"
+        android:description="@string/interaction_lock_demo_active_desc"
+        android:defaultValue="false" />
 
 </restrictions>

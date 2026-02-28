@@ -13,6 +13,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Dispatch Notification Screen - Shows load and message alerts
@@ -20,21 +23,27 @@ import kotlinx.coroutines.delay
  */
 @Composable
 fun DispatchNotificationScreen() {
-    var notification by remember { mutableStateOf("On Schedule") }
-    var hasAlert by remember { mutableStateOf(false) }
+    val events = remember {
+        listOf(
+            "On Schedule",
+            "New Message from Dispatch",
+            "Pickup Update: Delay +30 min",
+            "Route Confirmation Required"
+        )
+    }
+    var eventIndex by remember { mutableStateOf(0) }
+    var queueCount by remember { mutableStateOf(0) }
+    var lastSync by remember { mutableStateOf(formatTimeNow()) }
+    val notification = events[eventIndex]
+    val hasAlert = eventIndex != 0
 
     LaunchedEffect(Unit) {
-        delay(10000) // Wait 10 seconds
-        notification = "New Message from Dispatch"
-        hasAlert = true
-
-        delay(8000)
-        notification = "Pickup Update: Delay +30 min"
-        hasAlert = true
-
-        delay(8000)
-        notification = "On Schedule"
-        hasAlert = false
+        while (true) {
+            delay(9000)
+            eventIndex = (eventIndex + 1) % events.size
+            queueCount = if (eventIndex == 0) 0 else (queueCount + 1).coerceAtMost(9)
+            lastSync = formatTimeNow()
+        }
     }
 
     // Pulse animation for alert
@@ -93,10 +102,17 @@ fun DispatchNotificationScreen() {
                 textAlign = TextAlign.Center
             )
 
+            Text(
+                text = "Sync $lastSync",
+                fontSize = 11.sp,
+                color = Color.White.copy(alpha = 0.85f),
+                textAlign = TextAlign.Center
+            )
+
             if (hasAlert) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "⚡ NEW",
+                    text = "⚡ QUEUE $queueCount",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -104,4 +120,8 @@ fun DispatchNotificationScreen() {
             }
         }
     }
+}
+
+private fun formatTimeNow(): String {
+    return SimpleDateFormat("HH:mm", Locale.US).format(Date())
 }

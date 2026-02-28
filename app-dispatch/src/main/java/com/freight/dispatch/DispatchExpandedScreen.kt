@@ -1,5 +1,6 @@
 package com.freight.dispatch
 
+import android.net.Uri
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
@@ -21,8 +22,21 @@ import androidx.compose.ui.viewinterop.AndroidView
  * Loads configurable dispatch URL (e.g., FedEx GRDLHL Dispatch)
  */
 @Composable
-fun DispatchExpandedScreen(dispatchUrl: String = "https://fdxtools.fedex.com/grdlhldispatch") {
+fun DispatchExpandedScreen(
+    dispatchUrl: String = "https://fdxtools.fedex.com/grdlhldispatch",
+    dispatchLoginUrl: String? = null,
+    autoLoginRedirect: Boolean = false
+) {
     var isLoading by remember { mutableStateOf(true) }
+    var hasRedirectedToLogin by remember { mutableStateOf(false) }
+
+    val normalizedDispatchUrl = remember(dispatchUrl) { dispatchUrl.trim() }
+    val normalizedLoginUrl = remember(dispatchLoginUrl) {
+        dispatchLoginUrl?.trim()?.takeIf { it.isNotBlank() }
+    }
+    val initialUrl = remember(normalizedDispatchUrl, normalizedLoginUrl, autoLoginRedirect) {
+        if (autoLoginRedirect && normalizedLoginUrl != null) normalizedLoginUrl else normalizedDispatchUrl
+    }
 
     Box(
         modifier = Modifier
@@ -82,11 +96,27 @@ fun DispatchExpandedScreen(dispatchUrl: String = "https://fdxtools.fedex.com/grd
                             webViewClient = object : WebViewClient() {
                                 override fun onPageFinished(view: WebView?, url: String?) {
                                     super.onPageFinished(view, url)
+
+                                    if (
+                                        autoLoginRedirect &&
+                                        !hasRedirectedToLogin &&
+                                        normalizedLoginUrl != null &&
+                                        shouldRedirectToLogin(
+                                            currentUrl = url,
+                                            dispatchUrl = normalizedDispatchUrl,
+                                            loginUrl = normalizedLoginUrl
+                                        )
+                                    ) {
+                                        hasRedirectedToLogin = true
+                                        view?.loadUrl(normalizedLoginUrl)
+                                        return
+                                    }
+
                                     isLoading = false
                                 }
                             }
 
-                            loadUrl(dispatchUrl)
+                            loadUrl(initialUrl)
                         }
                     },
                     modifier = Modifier.fillMaxSize()
@@ -119,4 +149,32 @@ fun DispatchExpandedScreen(dispatchUrl: String = "https://fdxtools.fedex.com/grd
             }
         }
     }
+}
+
+private fun shouldRedirectToLogin(currentUrl: String?, dispatchUrl: String, loginUrl: String): Boolean {
+    if (currentUrl.isNullOrBlank()) {
+        return false
+    }
+
+    val currentUri = runCatching { Uri.parse(currentUrl) }.getOrNull() ?: return false
+    val dispatchUri = runCatching { Uri.parse(dispatchUrl) }.getOrNull()
+    val loginUri = runCatching { Uri.parse(loginUrl) }.getOrNull()
+
+    if (loginUri != null && currentUri.toString().startsWith(loginUri.toString(), ignoreCase = true)) {
+        return false
+    }
+
+    if (dispatchUri == null) {
+        return false
+    }
+
+    val sameHost = currentUri.host.equals(dispatchUri.host, ignoreCase = true)
+    if (!sameHost) {
+        return false
+    }
+
+    val currentPath = currentUri.path.orEmpty().trim()
+    val dispatchPath = dispatchUri.path.orEmpty().trim()
+
+    return currentPath.isBlank() || currentPath == "/" || currentPath == dispatchPath
 }

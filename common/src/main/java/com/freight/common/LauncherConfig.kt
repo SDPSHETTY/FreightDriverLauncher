@@ -68,7 +68,9 @@ data class LauncherConfig(
     val mainTileNormalSize: Float = 0.7f,    // 70% when nothing expanded
     val mainTileCompressedSize: Float = 0.4f, // 40% when tile expanded
     val expandedTileSize: Float = 0.3f,       // 30% for expanded tile
-    val bottomTilesSize: Float = 0.3f         // 30% for bottom bar
+    val bottomTilesSize: Float = 0.3f,        // 30% for bottom bar
+    val interactionLockWhenMoving: Boolean = false,
+    val interactionLockDemoActive: Boolean = false
 )
 
 /**
@@ -83,7 +85,9 @@ data class TileConfig(
     val colorHex: String,
     val type: TileType,
     val expandable: Boolean = false,
-    val url: String? = null
+    val url: String? = null,
+    val loginUrl: String? = null,
+    val autoLoginRedirect: Boolean = false
 ) {
     fun toTileInfo(): TileInfo {
         return TileInfo(

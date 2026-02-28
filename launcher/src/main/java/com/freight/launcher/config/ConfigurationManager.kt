@@ -6,8 +6,8 @@ import android.os.Bundle
 import com.freight.common.LauncherConfig
 import com.freight.common.TileConfig
 import com.freight.common.TileType
-import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.math.max
 
 /**
  * Configuration Manager - Reads config from MDM or local JSON file
@@ -22,19 +22,16 @@ class ConfigurationManager(private val context: Context) {
      * Get launcher configuration from MDM or defaults
      */
     fun getConfig(): LauncherConfig {
-        // Try to get MDM configuration first
         val mdmConfig = getMDMConfig()
         if (mdmConfig != null) {
             return mdmConfig
         }
 
-        // Try to load from local config file (for testing)
         val fileConfig = getFileConfig()
         if (fileConfig != null) {
             return fileConfig
         }
 
-        // Fall back to default configuration
         return LauncherConfig()
     }
 
@@ -65,18 +62,22 @@ class ConfigurationManager(private val context: Context) {
         val mainTileActivity = restrictions.getString("main_tile_activity") ?: "com.motive.driver.MainActivity"
 
         val dispatchUrl = restrictions.getString("dispatch_url") ?: "https://fdxtools.fedex.com/grdlhldispatch"
+        val dispatchLoginUrl = restrictions.getString("dispatch_login_url")
+        val dispatchAutoLoginRedirect = restrictions.getBoolean("dispatch_auto_login_redirect", false)
 
         val navigationPackage = restrictions.getString("navigation_package") ?: "com.google.android.apps.maps"
         val prepassPackage = restrictions.getString("prepass_package") ?: "com.prepass.app"
         val eldPackage = restrictions.getString("eld_package") ?: "com.eld.app"
 
-        val mainTileNormalSize = restrictions.getFloat("main_tile_normal_size", 0.7f)
-        val mainTileCompressedSize = restrictions.getFloat("main_tile_compressed_size", 0.4f)
-        val expandedTileSize = restrictions.getFloat("expanded_tile_size", 0.3f)
+        val mainTileNormalSize = readFloatRestriction(restrictions, "main_tile_normal_size", 0.7f)
+        val mainTileCompressedSize = readFloatRestriction(restrictions, "main_tile_compressed_size", 0.4f)
+        val expandedTileSize = readFloatRestriction(restrictions, "expanded_tile_size", 0.3f)
 
         val navigationExpandable = restrictions.getBoolean("navigation_expandable", true)
         val prepassExpandable = restrictions.getBoolean("prepass_expandable", true)
         val dispatchExpandable = restrictions.getBoolean("dispatch_expandable", true)
+        val interactionLockWhenMoving = restrictions.getBoolean("interaction_lock_when_moving", false)
+        val interactionLockDemoActive = restrictions.getBoolean("interaction_lock_demo_active", false)
 
         return LauncherConfig(
             mainTile = TileConfig(
@@ -119,7 +120,9 @@ class ConfigurationManager(private val context: Context) {
                     colorHex = "#F44336",
                     type = TileType.WEBAPP,
                     expandable = dispatchExpandable,
-                    url = dispatchUrl
+                    url = dispatchUrl,
+                    loginUrl = dispatchLoginUrl,
+                    autoLoginRedirect = dispatchAutoLoginRedirect
                 ),
                 TileConfig(
                     id = "eld",
@@ -135,7 +138,9 @@ class ConfigurationManager(private val context: Context) {
             mainTileNormalSize = mainTileNormalSize,
             mainTileCompressedSize = mainTileCompressedSize,
             expandedTileSize = expandedTileSize,
-            bottomTilesSize = 0.3f
+            bottomTilesSize = calculateBottomTilesSize(mainTileNormalSize, mainTileCompressedSize, expandedTileSize),
+            interactionLockWhenMoving = interactionLockWhenMoving,
+            interactionLockDemoActive = interactionLockDemoActive
         )
     }
 
@@ -165,7 +170,16 @@ class ConfigurationManager(private val context: Context) {
      */
     private fun parseJSONConfig(json: JSONObject): LauncherConfig {
         val dispatchUrl = json.optString("dispatch_url", "https://fdxtools.fedex.com/grdlhldispatch")
+        val dispatchLoginUrl = json.optString("dispatch_login_url").ifBlank { null }
+        val dispatchAutoLoginRedirect = json.optBoolean("dispatch_auto_login_redirect", false)
         val mainTilePackage = json.optString("main_tile_package", "com.motive.driver")
+        val mainTileActivity = json.optString("main_tile_activity", "$mainTilePackage.MainActivity")
+
+        val mainTileNormalSize = readFloatConfig(json, "main_tile_normal_size", 0.7f)
+        val mainTileCompressedSize = readFloatConfig(json, "main_tile_compressed_size", 0.4f)
+        val expandedTileSize = readFloatConfig(json, "expanded_tile_size", 0.3f)
+        val interactionLockWhenMoving = json.optBoolean("interaction_lock_when_moving", false)
+        val interactionLockDemoActive = json.optBoolean("interaction_lock_demo_active", false)
 
         return LauncherConfig(
             mainTile = TileConfig(
@@ -173,7 +187,7 @@ class ConfigurationManager(private val context: Context) {
                 title = "Motive Driver",
                 icon = "🚛",
                 packageName = mainTilePackage,
-                activityName = "$mainTilePackage.MainActivity",
+                activityName = mainTileActivity,
                 colorHex = "#1E1E1E",
                 type = TileType.MAIN,
                 expandable = false
@@ -208,7 +222,9 @@ class ConfigurationManager(private val context: Context) {
                     colorHex = "#F44336",
                     type = TileType.WEBAPP,
                     expandable = json.optBoolean("dispatch_expandable", true),
-                    url = dispatchUrl
+                    url = dispatchUrl,
+                    loginUrl = dispatchLoginUrl,
+                    autoLoginRedirect = dispatchAutoLoginRedirect
                 ),
                 TileConfig(
                     id = "eld",
@@ -220,7 +236,44 @@ class ConfigurationManager(private val context: Context) {
                     type = TileType.NOTIFICATION,
                     expandable = false
                 )
-            )
+            ),
+            mainTileNormalSize = mainTileNormalSize,
+            mainTileCompressedSize = mainTileCompressedSize,
+            expandedTileSize = expandedTileSize,
+            bottomTilesSize = calculateBottomTilesSize(mainTileNormalSize, mainTileCompressedSize, expandedTileSize),
+            interactionLockWhenMoving = interactionLockWhenMoving,
+            interactionLockDemoActive = interactionLockDemoActive
         )
+    }
+
+    private fun readFloatRestriction(restrictions: Bundle, key: String, defaultValue: Float): Float {
+        val stringValue = restrictions.getString(key)
+        if (!stringValue.isNullOrBlank()) {
+            stringValue.toFloatOrNull()?.let { return it }
+        }
+
+        return restrictions.getFloat(key, defaultValue)
+    }
+
+    private fun readFloatConfig(json: JSONObject, key: String, defaultValue: Float): Float {
+        if (!json.has(key)) {
+            return defaultValue
+        }
+
+        return when (val value = json.opt(key)) {
+            is Number -> value.toFloat()
+            is String -> value.toFloatOrNull() ?: defaultValue
+            else -> defaultValue
+        }
+    }
+
+    private fun calculateBottomTilesSize(
+        mainTileNormalSize: Float,
+        mainTileCompressedSize: Float,
+        expandedTileSize: Float
+    ): Float {
+        val collapsedBottom = 1f - mainTileNormalSize
+        val expandedBottom = 1f - mainTileCompressedSize - expandedTileSize
+        return max(0.1f, minOf(collapsedBottom, expandedBottom))
     }
 }
