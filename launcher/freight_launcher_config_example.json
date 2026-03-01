@@ -22,5 +22,21 @@
   "expanded_tile_size": 0.3,
 
   "interaction_lock_when_moving": false,
-  "interaction_lock_demo_active": false
+  "interaction_lock_demo_active": false,
+  "default_launcher_prompt_enabled": false,
+
+  "esper_sdk_enabled": false,
+  "esper_api_token": "",
+  "esper_tenant_url": "",
+  "esper_backend_alias_endpoint": "",
+  "esper_enterprise_id": "",
+  "esper_identity_hard_disable": false,
+  "esper_config_revision": "",
+  "esper_use_managed_alias": true,
+  "esper_show_device_name": true,
+  "esper_device_alias": "",
+  "esper_device_name": "",
+
+  "diagnostics_panel_enabled": false,
+  "diagnostics_show_warnings": true
 }

@@ -47,14 +47,23 @@ adb shell am start -n com.freight.launcher/.MainActivity
 
 Full enterprise configuration via Android App Restrictions API. See [MDM_CONFIGURATION.md](MDM_CONFIGURATION.md) for details.
 
+## Esper Integration Readiness
+
+- Device SDK and cloud integration prep is documented in [ESPER_INTEGRATION.md](ESPER_INTEGRATION.md).
+- This includes SDK compatibility, managed config keys, and recommended backend API pattern.
+
+## Delivery Roadmap
+
+- Prioritized execution plan is tracked in [ROADMAP.md](ROADMAP.md).
+
 ## Technical Stack
 
 - **Language**: Kotlin 100%
 - **UI Framework**: Jetpack Compose
 - **Architecture**: Multi-module MVVM
 - **Build System**: Gradle with Kotlin DSL
-- **Min SDK**: API 24 (Android 7.0)
-- **Target SDK**: API 34 (Android 14)
+- **Min SDK**: API 21 (Android 5.0)
+- **Target SDK**: API 36
 
 ---
 

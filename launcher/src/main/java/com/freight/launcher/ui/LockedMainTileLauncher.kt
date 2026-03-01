@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.freight.common.TileInfo
+import com.freight.launcher.telemetry.LauncherEventLogger
 
 /**
  * Locked Main Tile Launcher with Multiple Expandable Tiles
@@ -27,6 +28,10 @@ fun LockedMainTileLauncher(
     mainTile: TileInfo,
     bottomTiles: List<TileInfo>,
     expandableTileIds: Set<String>,
+    deviceIdentityPrimary: String?,
+    deviceIdentitySecondary: String?,
+    diagnosticsEnabled: Boolean,
+    diagnosticsLines: List<String>,
     isInteractionLocked: Boolean,
     mainTileNormalSize: Float,
     mainTileCompressedSize: Float,
@@ -37,6 +42,13 @@ fun LockedMainTileLauncher(
 ) {
     // Track which tile is currently expanded (null = none expanded)
     var expandedTileId by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(expandedTileId) {
+        LauncherEventLogger.log(
+            event = "tile_expand_state_changed",
+            attributes = mapOf("expanded_tile_id" to (expandedTileId ?: "none"))
+        )
+    }
 
     val expandedTile = bottomTiles.find { it.id == expandedTileId }
     val visibleBottomTiles = if (expandedTileId != null) {
@@ -70,7 +82,13 @@ fun LockedMainTileLauncher(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(expandedTileWeight)
-                    .clickable { expandedTileId = null } // Tap to collapse
+                    .clickable {
+                        LauncherEventLogger.log(
+                            event = "expanded_tile_collapsed",
+                            attributes = mapOf("tile_id" to expandedTile.id)
+                        )
+                        expandedTileId = null
+                    }
             ) {
                 // Show appropriate expanded view
                 expandableScreenProvider(expandedTileId!!)
@@ -83,9 +101,10 @@ fun LockedMainTileLauncher(
                 .fillMaxWidth()
                 .weight(if (expandedTileId != null) expandedBottomWeight else collapsedBottomWeight)
                 .background(Color(0xFF212121)) // Dark background for bottom bar
-                .padding(vertical = 12.dp)
+                .padding(top = 12.dp, bottom = 10.dp)
         ) {
             LazyRow(
+                modifier = Modifier.align(Alignment.TopStart),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
@@ -95,11 +114,72 @@ fun LockedMainTileLauncher(
                         content = { tileContentProvider(tile) },
                         isExpandable = tile.id in expandableTileIds,
                         onTap = {
-                            if (!isInteractionLocked && tile.id in expandableTileIds) {
+                            if (isInteractionLocked) {
+                                LauncherEventLogger.log(
+                                    event = "tile_expand_blocked",
+                                    attributes = mapOf("tile_id" to tile.id, "reason" to "interaction_locked")
+                                )
+                            } else if (tile.id in expandableTileIds) {
+                                val nextExpanded = if (expandedTileId == tile.id) null else tile.id
+                                LauncherEventLogger.log(
+                                    event = "tile_expand_tapped",
+                                    attributes = mapOf(
+                                        "tile_id" to tile.id,
+                                        "next_state" to (nextExpanded ?: "collapsed")
+                                    )
+                                )
                                 expandedTileId = if (expandedTileId == tile.id) null else tile.id
                             }
                         }
                     )
+                }
+            }
+
+            if (!deviceIdentityPrimary.isNullOrBlank() || !deviceIdentitySecondary.isNullOrBlank()) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(start = 20.dp, bottom = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    if (!deviceIdentityPrimary.isNullOrBlank()) {
+                        Text(
+                            text = deviceIdentityPrimary,
+                            color = Color.White.copy(alpha = 0.92f),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            maxLines = 1
+                        )
+                    }
+                    if (!deviceIdentitySecondary.isNullOrBlank()) {
+                        Text(
+                            text = deviceIdentitySecondary,
+                            color = Color.White.copy(alpha = 0.75f),
+                            fontSize = 13.sp,
+                            maxLines = 1
+                        )
+                    }
+                }
+            }
+
+            if (diagnosticsEnabled && diagnosticsLines.isNotEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(end = 18.dp, bottom = 8.dp)
+                        .background(Color(0xCC121212))
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    diagnosticsLines.forEach { line ->
+                        Text(
+                            text = line,
+                            color = Color.White.copy(alpha = 0.8f),
+                            fontSize = 10.sp,
+                            maxLines = 1
+                        )
+                    }
                 }
             }
 

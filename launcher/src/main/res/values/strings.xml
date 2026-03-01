@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Freight Launcher</string>
 
     <!-- MDM Restriction Descriptions -->
     <string name="main_tile_package_desc">Package name for the main tile app</string>
@@ -18,4 +18,18 @@
     <string name="expanded_tile_size_desc">Size of expanded tile</string>
     <string name="interaction_lock_when_moving_desc">Disable expandable tile taps while vehicle is moving</string>
     <string name="interaction_lock_demo_active_desc">Enable interaction lock state for demo/testing</string>
+    <string name="default_launcher_prompt_enabled_desc">Show in-app prompt to set Freight as default Home app</string>
+    <string name="esper_sdk_enabled_desc">Enable Esper Device SDK-based identity retrieval</string>
+    <string name="esper_api_token_desc">Single Esper API token used across SDK activation, direct cloud lookup, and backend auth</string>
+    <string name="esper_tenant_url_desc">Esper tenant console URL, e.g. https://tenant.esper.cloud</string>
+    <string name="esper_backend_alias_endpoint_desc">Backend endpoint that resolves alias and device name by device identity</string>
+    <string name="esper_enterprise_id_desc">Esper enterprise ID used for cloud metadata requests</string>
+    <string name="esper_identity_hard_disable_desc">Emergency kill switch for identity display and Esper identity calls</string>
+    <string name="esper_config_revision_desc">Optional revision marker to force deterministic config rollouts</string>
+    <string name="esper_use_managed_alias_desc">Show alias name; when true launcher resolves and displays alias, when false alias is hidden</string>
+    <string name="esper_device_alias_desc">Device alias value pushed from Esper managed config</string>
+    <string name="esper_device_name_desc">Device name value pushed from Esper managed config</string>
+    <string name="esper_show_device_name_desc">Show device name from Esper identity metadata</string>
+    <string name="diagnostics_panel_enabled_desc">Show diagnostics panel with config and integration status</string>
+    <string name="diagnostics_show_warnings_desc">Show config warning count in diagnostics panel</string>
 </resources>

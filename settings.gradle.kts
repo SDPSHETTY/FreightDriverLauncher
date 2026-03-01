@@ -16,6 +16,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://artifact.esper.io/artifactory/esper-device-sdk/")
     }
 }
 

@@ -96,6 +96,71 @@ The Freight Driver Launcher supports MDM (Mobile Device Management) configuratio
 - Demo/testing switch for interaction lock without telematics integration
 - Default: `false`
 
+**default_launcher_prompt_enabled** (boolean)
+- Shows in-app prompt to guide user to set Freight as default Home app
+- Default: `false`
+
+### Esper Integration (Future-ready)
+
+**esper_sdk_enabled** (boolean)
+- Enables Esper Device SDK code path in launcher
+- Default: `false`
+
+**esper_api_token** (string)
+- Single token used by app for SDK activation, direct Esper cloud lookup, and backend alias auth
+- Use this as the primary token key
+
+**esper_backend_alias_endpoint** (string, optional)
+- Backend endpoint to resolve alias/device name from SDK identity (recommended production path)
+- Example: `https://identity.yourcompany.com/esper/alias`
+
+**esper_tenant_url** (string, optional for direct test mode)
+- Esper tenant URL used to derive tenant API host for direct lookup
+- Example: `https://yourtenant.esper.cloud`
+
+**esper_enterprise_id** (string, optional)
+- Enterprise ID used when resolving device metadata via Esper API
+- Default: empty
+
+**esper_identity_hard_disable** (boolean)
+- Emergency kill switch. When `true`, launcher hides identity and skips all Esper identity calls regardless of other keys.
+- Default: `false`
+
+**esper_config_revision** (string, optional)
+- Optional rollout marker (e.g. `2026-02-28-r3`) used for deterministic managed-config updates and diagnostics visibility.
+- Default: empty
+
+**esper_use_managed_alias** (boolean)
+- Alias visibility switch. When `true`, launcher resolves and shows alias. When `false`, alias is hidden.
+- Default: `true`
+
+**esper_show_device_name** (boolean)
+- Device-name visibility switch. When `true`, launcher shows device name. When `false`, device name is hidden.
+- Default: `true`
+
+**esper_device_alias** (string, optional)
+- Alias text pushed from Esper managed app configuration
+- Default: empty
+
+**esper_device_name** (string, optional)
+- Device name text pushed from Esper managed app configuration
+- Default: empty
+
+### Diagnostics
+
+**diagnostics_panel_enabled** (boolean)
+- Shows a compact diagnostics panel in launcher footer
+- Default: `false`
+
+**diagnostics_show_warnings** (boolean)
+- Shows sanitized config warning count in diagnostics panel
+- Default: `true`
+
+### Managed-config rollout guidance
+
+- Push a full Esper identity block on each update (not partial deltas) to avoid stale boolean merges from DPC.
+- Include these keys every time: `esper_sdk_enabled`, `esper_api_token`, `esper_tenant_url`, `esper_enterprise_id`, `esper_use_managed_alias`, `esper_show_device_name`, `esper_identity_hard_disable`, `esper_config_revision`.
+
 ## Testing Without MDM (Development)
 
 For testing without MDM during development, create a JSON configuration file:
@@ -133,7 +198,23 @@ Or create manually on device at: `/sdcard/freight_launcher_config.json`
   "expanded_tile_size": 0.3,
 
   "interaction_lock_when_moving": false,
-  "interaction_lock_demo_active": false
+  "interaction_lock_demo_active": false,
+  "default_launcher_prompt_enabled": false,
+
+  "esper_sdk_enabled": false,
+  "esper_api_token": "",
+  "esper_tenant_url": "",
+  "esper_backend_alias_endpoint": "",
+  "esper_enterprise_id": "",
+  "esper_identity_hard_disable": false,
+  "esper_config_revision": "",
+  "esper_use_managed_alias": true,
+  "esper_show_device_name": true,
+  "esper_device_alias": "",
+  "esper_device_name": "",
+
+  "diagnostics_panel_enabled": false,
+  "diagnostics_show_warnings": true
 }
 ```
 

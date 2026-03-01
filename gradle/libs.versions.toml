@@ -12,6 +12,7 @@ composeBom = "2024.09.00"
 googleMaps = "19.0.0"
 googleMapsCompose = "4.4.2"
 playServicesLocation = "21.3.0"
+esperDeviceSdk = "3.3.0101.27"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,9 +33,9 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 google-maps-android = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "googleMaps" }
 google-maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "googleMapsCompose" }
 google-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+esper-device-sdk = { group = "io.esper.devicesdk", name = "app", version.ref = "esperDeviceSdk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-

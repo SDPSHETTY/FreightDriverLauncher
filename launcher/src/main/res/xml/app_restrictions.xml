@@ -120,4 +120,104 @@
         android:description="@string/interaction_lock_demo_active_desc"
         android:defaultValue="false" />
 
+    <restriction
+        android:key="default_launcher_prompt_enabled"
+        android:title="Default Launcher Prompt Enabled"
+        android:restrictionType="bool"
+        android:description="@string/default_launcher_prompt_enabled_desc"
+        android:defaultValue="false" />
+
+    <!-- Esper Integration (Future-ready) -->
+    <restriction
+        android:key="esper_sdk_enabled"
+        android:title="Enable Esper SDK Integration"
+        android:restrictionType="bool"
+        android:description="@string/esper_sdk_enabled_desc"
+        android:defaultValue="false" />
+
+    <restriction
+        android:key="esper_api_token"
+        android:title="Esper API Token"
+        android:restrictionType="string"
+        android:description="@string/esper_api_token_desc"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="esper_tenant_url"
+        android:title="Esper Tenant URL"
+        android:restrictionType="string"
+        android:description="@string/esper_tenant_url_desc"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="esper_backend_alias_endpoint"
+        android:title="Alias Backend Endpoint"
+        android:restrictionType="string"
+        android:description="@string/esper_backend_alias_endpoint_desc"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="esper_enterprise_id"
+        android:title="Esper Enterprise ID"
+        android:restrictionType="string"
+        android:description="@string/esper_enterprise_id_desc"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="esper_identity_hard_disable"
+        android:title="Hard Disable Identity"
+        android:restrictionType="bool"
+        android:description="@string/esper_identity_hard_disable_desc"
+        android:defaultValue="false" />
+
+    <restriction
+        android:key="esper_config_revision"
+        android:title="Esper Config Revision"
+        android:restrictionType="string"
+        android:description="@string/esper_config_revision_desc"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="esper_use_managed_alias"
+        android:title="Enable Alias Display"
+        android:restrictionType="bool"
+        android:description="@string/esper_use_managed_alias_desc"
+        android:defaultValue="true" />
+
+    <restriction
+        android:key="esper_device_alias"
+        android:title="Managed Device Alias"
+        android:restrictionType="string"
+        android:description="@string/esper_device_alias_desc"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="esper_device_name"
+        android:title="Managed Device Name"
+        android:restrictionType="string"
+        android:description="@string/esper_device_name_desc"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="esper_show_device_name"
+        android:title="Show Device Name"
+        android:restrictionType="bool"
+        android:description="@string/esper_show_device_name_desc"
+        android:defaultValue="true" />
+
+    <!-- Diagnostics -->
+    <restriction
+        android:key="diagnostics_panel_enabled"
+        android:title="Diagnostics Panel Enabled"
+        android:restrictionType="bool"
+        android:description="@string/diagnostics_panel_enabled_desc"
+        android:defaultValue="false" />
+
+    <restriction
+        android:key="diagnostics_show_warnings"
+        android:title="Diagnostics Show Warnings"
+        android:restrictionType="bool"
+        android:description="@string/diagnostics_show_warnings_desc"
+        android:defaultValue="true" />
+
 </restrictions>

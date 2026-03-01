@@ -70,7 +70,29 @@ data class LauncherConfig(
     val expandedTileSize: Float = 0.3f,       // 30% for expanded tile
     val bottomTilesSize: Float = 0.3f,        // 30% for bottom bar
     val interactionLockWhenMoving: Boolean = false,
-    val interactionLockDemoActive: Boolean = false
+    val interactionLockDemoActive: Boolean = false,
+    val showDefaultLauncherPrompt: Boolean = false,
+    val esper: EsperIntegrationConfig = EsperIntegrationConfig(),
+    val diagnostics: DiagnosticsConfig = DiagnosticsConfig()
+)
+
+data class DiagnosticsConfig(
+    val panelEnabled: Boolean = false,
+    val showWarnings: Boolean = true
+)
+
+data class EsperIntegrationConfig(
+    val enabled: Boolean = false,
+    val enterpriseId: String? = null,
+    val apiToken: String? = null,
+    val tenantUrl: String? = null,
+    val backendAliasEndpoint: String? = null,
+    val identityHardDisable: Boolean = false,
+    val configRevision: String? = null,
+    val useManagedConfigAlias: Boolean = true,
+    val showDeviceName: Boolean = true,
+    val managedAlias: String? = null,
+    val managedDeviceName: String? = null
 )
 
 /**
