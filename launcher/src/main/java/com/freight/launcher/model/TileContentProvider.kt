@@ -12,12 +12,12 @@ import com.freight.common.TileInfo
 import com.freight.motive.MotiveScreen
 import com.freight.prepass.PrePassScreen
 import com.freight.dispatch.DispatchScreen
-import com.freight.eld.EldScreen
 
 object TileContentProvider {
     /**
-     * Get the main (locked) tile - Motive Driver
+     * Get the main (locked) tile - Motive Driver with integrated ELD
      * This tile is always visible and cannot be swapped
+     * Now includes comprehensive ELD compliance monitoring
      */
     fun getMainTile(): TileInfo {
         return TileInfo(
@@ -59,14 +59,6 @@ object TileContentProvider {
                 packageName = "com.freight.dispatch",
                 activityName = "com.freight.dispatch.DispatchActivity",
                 color = Color(0xFFF44336) // Red
-            ),
-            TileInfo(
-                id = "eld",
-                title = "ELD",
-                icon = "📋",
-                packageName = "com.freight.eld",
-                activityName = "com.freight.eld.EldActivity",
-                color = Color(0xFF4CAF50) // Green
             )
         )
     }
@@ -85,11 +77,10 @@ object TileContentProvider {
     @Composable
     fun getContentForTile(tile: TileInfo) {
         when (tile.id) {
-            "motive" -> MotiveScreen()
+            "motive" -> MotiveScreen() // Now includes integrated ELD functionality
             "navigation" -> com.freight.navigation.NavigationNotificationScreen()
             "prepass" -> com.freight.prepass.PrePassNotificationScreen()
             "dispatch" -> com.freight.dispatch.DispatchNotificationScreen()
-            "eld" -> com.freight.eld.EldNotificationScreen()
             else -> {
                 // Fallback for unknown tiles
                 Box(

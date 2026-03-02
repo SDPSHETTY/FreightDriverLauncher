@@ -1,4 +1,4 @@
-package com.freight.eld
+package com.freight.motive
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -15,11 +15,12 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
 /**
- * ELD Notification Screen - Shows hours of service alerts
- * Updates automatically with warnings
+ * Motive ELD Notification Screen - Combined ELD compliance monitoring
+ * Integrated into Motive Driver for unified experience
+ * Shows hours of service alerts with Motive branding
  */
 @Composable
-fun EldNotificationScreen() {
+fun MotiveEldNotificationScreen() {
     var hoursRemaining by remember { mutableStateOf(4.6f) }
     var showWarning by remember { mutableStateOf(false) }
 
@@ -56,7 +57,23 @@ fun EldNotificationScreen() {
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(16.dp)
         ) {
-            // Icon
+            // Motive branding for ELD
+            Text(
+                text = "🚛",
+                fontSize = 32.sp
+            )
+
+            Text(
+                text = "MOTIVE ELD",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White.copy(alpha = 0.9f),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Status icon
             Text(
                 text = if (showWarning) "⚠️" else "✓",
                 fontSize = 36.sp
@@ -64,7 +81,7 @@ fun EldNotificationScreen() {
 
             // Status
             Text(
-                text = if (showWarning) "LOW HOURS" else "ON DUTY",
+                text = if (showWarning) "LOW HOURS" else "ON DUTY - DRIVING",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,

@@ -104,7 +104,6 @@ class ConfigurationManager(private val context: Context) {
 
         val navigationPackage = restrictions.getString("navigation_package") ?: "com.google.android.apps.maps"
         val prepassPackage = restrictions.getString("prepass_package") ?: "com.prepass.app"
-        val eldPackage = restrictions.getString("eld_package") ?: "com.eld.app"
 
         val mainTileNormalSize = readFloatRestriction(restrictions, "main_tile_normal_size", 0.7f)
         val mainTileCompressedSize = readFloatRestriction(restrictions, "main_tile_compressed_size", 0.4f)
@@ -181,16 +180,6 @@ class ConfigurationManager(private val context: Context) {
                     url = dispatchUrl,
                     loginUrl = dispatchLoginUrl,
                     autoLoginRedirect = dispatchAutoLoginRedirect
-                ),
-                TileConfig(
-                    id = "eld",
-                    title = "ELD",
-                    icon = "📋",
-                    packageName = eldPackage,
-                    activityName = "$eldPackage.MainActivity",
-                    colorHex = "#4CAF50",
-                    type = TileType.NOTIFICATION,
-                    expandable = false
                 )
             ),
             mainTileNormalSize = mainTileNormalSize,
@@ -322,16 +311,6 @@ class ConfigurationManager(private val context: Context) {
                     url = dispatchUrl,
                     loginUrl = dispatchLoginUrl,
                     autoLoginRedirect = dispatchAutoLoginRedirect
-                ),
-                TileConfig(
-                    id = "eld",
-                    title = "ELD",
-                    icon = "📋",
-                    packageName = json.optString("eld_package", "com.eld.app"),
-                    activityName = "",
-                    colorHex = "#4CAF50",
-                    type = TileType.NOTIFICATION,
-                    expandable = false
                 )
             ),
             mainTileNormalSize = mainTileNormalSize,

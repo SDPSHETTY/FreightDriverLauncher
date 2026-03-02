@@ -12,8 +12,8 @@ android {
         applicationId = "com.freight.launcher"
         minSdk = 21
         targetSdk = 36
-        versionCode = 7
-        versionName = "1.7"
+        versionCode = 8
+        versionName = "1.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,7 +43,6 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":app-motive"))
     implementation(project(":app-navigation"))
-    implementation(project(":app-eld"))
     implementation(project(":app-dispatch"))
     implementation(project(":app-prepass"))
 
