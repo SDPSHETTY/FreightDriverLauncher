@@ -76,3 +76,7 @@ lint/tmp/
 
 # Mac
 .DS_Store
+
+# Test configuration files
+test_*.json
+*.png
