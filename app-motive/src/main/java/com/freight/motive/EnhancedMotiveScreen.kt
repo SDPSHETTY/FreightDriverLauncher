@@ -141,7 +141,7 @@ fun EnhancedMotiveScreen() {
                             )
                         }
 
-                        Divider(color = Color.Gray.copy(alpha = 0.3f))
+                        HorizontalDivider(color = Color.Gray.copy(alpha = 0.3f))
 
                         // Hours remaining with compliance warning
                         Row(
@@ -185,7 +185,7 @@ fun EnhancedMotiveScreen() {
                             }
                         }
 
-                        Divider(color = Color.Gray.copy(alpha = 0.3f))
+                        HorizontalDivider(color = Color.Gray.copy(alpha = 0.3f))
 
                         // Current location/route
                         Column(

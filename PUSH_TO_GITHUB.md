@@ -57,11 +57,10 @@ After pushing, verify on GitHub:
 ### Source Code (7 modules)
 - **launcher/** - Main launcher application with MDM support
 - **common/** - Shared data models and configuration
-- **app-motive/** - Motive Driver mock interface
+- **app-motive/** - Motive Driver with integrated ELD compliance
 - **app-navigation/** - Navigation notifications + expanded view
 - **app-prepass/** - PrePass alerts + expanded view
 - **app-dispatch/** - Dispatch WebView + notifications
-- **app-eld/** - ELD status monitoring
 
 ### Documentation
 - Configuration examples

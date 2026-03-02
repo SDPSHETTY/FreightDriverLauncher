@@ -37,11 +37,10 @@ adb shell am start -n com.freight.launcher/.MainActivity
 
 - **launcher/** - Main launcher application
 - **common/** - Shared library with data models
-- **app-motive/** - Motive Driver mock UI
+- **app-motive/** - Motive Driver with integrated ELD compliance
 - **app-navigation/** - Navigation notifications & expanded view
 - **app-prepass/** - PrePass alerts & expanded view
 - **app-dispatch/** - Dispatch messages & WebView
-- **app-eld/** - ELD status notifications
 
 ## MDM Configuration
 

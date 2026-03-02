@@ -10,7 +10,7 @@ The Freight Driver Multi-Tile Launcher has been successfully implemented through
 
 #### Phase 1: Project Restructuring
 - ✓ Renamed `app/` module to `launcher/`
-- ✓ Created 6 modules: launcher, common, app-navigation, app-eld, app-dispatch, app-prepass
+- ✓ Created 5 modules: launcher, common, app-motive, app-navigation, app-dispatch, app-prepass
 - ✓ Updated project name to "FreightDriverLauncher"
 - ✓ Configured build.gradle.kts for each module
 
@@ -111,13 +111,6 @@ FreightDriverLauncher/
 │   │   └── java/com/freight/navigation/
 │   │       ├── NavigationScreen.kt
 │   │       └── NavigationActivity.kt
-│   └── build.gradle.kts
-├── app-eld/                           # ELD Logger (Library)
-│   ├── src/main/
-│   │   ├── AndroidManifest.xml
-│   │   └── java/com/freight/eld/
-│   │       ├── EldScreen.kt
-│   │       └── EldActivity.kt
 │   └── build.gradle.kts
 ├── app-dispatch/                      # Dispatch System (Library)
 │   ├── src/main/
